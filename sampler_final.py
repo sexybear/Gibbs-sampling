@@ -52,7 +52,6 @@ def count_math():
                 if h != num:
                         start_dic[h] = random.randint(0,len(DNA_list[0])-k)
                 h = h + 1
-        #print start_dic
 
         profile = []
 
@@ -61,9 +60,6 @@ def count_math():
                 if h != l:
                         profile.append(item[start_dic[h]:(start_dic[h] + k)])
                 h = h+1
-        #print "profile:--------------------"
-        #print profile
-        #print "----------------------------"
         p_dic = {}
         for item in item_set:
                 p_dic[item] = [float(0)] * k
@@ -73,22 +69,17 @@ def count_math():
                 for item in seq:
                         p_dic[item][h] = p_dic[item][h] + 1
                         h = h+1
-        #print p_dic
         p_dic_result = {}
         for item in item_set:
                 p_dic_result[item] = []
-        #print len(DNA_list)
+
         
         for i in p_dic.keys():
                 for item in p_dic[i]:
-                        #print item
                         item = float(item/(len(DNA_list)-1))
-                        #print item
                         item_final = "%.3f"%item
-                        #print item_final
                         p_dic_result[i].append(item_final)
 
-        #print p_dic_result
 
         result_list = []
         for i in range(0,len(DNA_list[0])-k-1):
@@ -110,14 +101,8 @@ def count_math():
                 motif = mo
 
 if __name__ == "__main__":
-        #global DNA_list 
-        #global maxscore
-        #global motif 
-        #global item_set 
-        #global num 
-        #global st
-        #global k
-        #global ci
+
+        int num_diedai = 100
 
         filename = "DNA.txt"
         read_DNA(filename)
@@ -127,7 +112,7 @@ if __name__ == "__main__":
         k = 7
         ci = 0
 
-        for i in range(0,100):
+        for i in range(0,num_diedai):
                 count_math()
                 ci = ci + 1
         print "maxscore:"
