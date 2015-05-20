@@ -29,6 +29,31 @@ def count_math():
         global k
         global ci
 
+        p_dic_count = {}
+
+        h = 0
+        for seq in DNA_list:
+                p_dic_count[h] = {}
+                h = h+1
+
+        for h in range(0,12):
+                for item in item_set:
+                        p_dic_count[h][item] = []
+        #print p_dic_count
+        h = 0
+        for seq in DNA_list:
+                for item in seq:
+                                p_dic_count[h][item].append(item)
+                h = h + 1
+
+        p_dic_tf = {}
+        
+        for key in p_dic_count.keys():
+                p_dic_tf[key] = {}
+                for item in p_dic_count[key].keys():
+                        p_dic_tf[key][item] = float(len(p_dic_count[key][item])/len(DNA_list[0]))
+
+        #print p_dic_tf
         if num > len(DNA_list[0]):
                 l = random.randint(0,len(DNA_list)-1)
         else:
@@ -67,8 +92,10 @@ def count_math():
         for seq in profile:
                 h = 0
                 for item in seq:
-                        p_dic[item][h] = p_dic[item][h] + 1
+                        p_dic[item][h] = p_dic[item][h] + p_dic_tf[h][item]
                         h = h+1
+
+        print p_dic
         p_dic_result = {}
         for item in item_set:
                 p_dic_result[item] = []
@@ -102,11 +129,12 @@ def count_math():
 
 if __name__ == "__main__":
 
-        filename = "100-100-GATTACA-0.txt"
+        filename = "DNA.txt"
         read_DNA(filename)
         print DNA_list
         item_set = set([item for DNA_seq in DNA_list for item in DNA_seq])
         print item_set
+
         k = 7
         ci = 0
 

@@ -3,6 +3,7 @@ import random
 
 DNA_list = [] 
 item_set = [] 
+H_dis = {}
 maxscore = 0 
 motif = []
 num = 0
@@ -18,6 +19,9 @@ def read_DNA(filename):
                 if not line:
                         break
                 DNA_list.append(line[:-1])
+
+def ham(s1,s2):
+        return sum(ch1 != ch2 for ch1,ch2 in zip(s1,s2))
 
 def count_math():
         global DNA_list
@@ -60,6 +64,15 @@ def count_math():
                 if h != l:
                         profile.append(item[start_dic[h]:(start_dic[h] + k)])
                 h = h+1
+
+
+        profile_result = 0
+        h = 0
+        for item in DNA_list:
+                if h != l:
+                        profile_result = profile_result + H_dis[h]
+                h = h+1
+        
         p_dic = {}
         for item in item_set:
                 p_dic[item] = [float(0)] * k
@@ -67,7 +80,7 @@ def count_math():
         for seq in profile:
                 h = 0
                 for item in seq:
-                        p_dic[item][h] = p_dic[item][h] + 1
+                        p_dic[item][h] = p_dic[item][h] + H_dis[h]
                         h = h+1
         p_dic_result = {}
         for item in item_set:
@@ -76,7 +89,7 @@ def count_math():
         
         for i in p_dic.keys():
                 for item in p_dic[i]:
-                        item = float(item/(len(DNA_list)-1))
+                        item = float(item/profile_result)
                         item_final = "%.3f"%item
                         p_dic_result[i].append(item_final)
 
@@ -102,11 +115,28 @@ def count_math():
 
 if __name__ == "__main__":
 
+
         filename = "100-100-GATTACA-0.txt"
         read_DNA(filename)
         print DNA_list
+
+        pattern = DNA_list[99]
+
+        DNA_list.pop()
+
+        print pattern
+        print len(DNA_list)
+        
         item_set = set([item for DNA_seq in DNA_list for item in DNA_seq])
         print item_set
+
+        h = 0
+        for item in DNA_list:
+            H_dis[h] = ham(item,pattern)
+            h = h+1
+
+        print H_dis
+            
         k = 7
         ci = 0
 
@@ -117,5 +147,3 @@ if __name__ == "__main__":
         print maxscore
         print "motif:"
         print motif
-                
-        
